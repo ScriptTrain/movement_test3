@@ -29,6 +29,9 @@ public class Robot extends TimedRobot {
   private TalonSRX frontRight = new TalonSRX(0);
   private TalonSRX backRight = new TalonSRX(2);
 
+  private double speedL = 0;
+  private double speedR = 0;
+
   @Override
   public void robotInit() {
     frontLeft.set(ControlMode.PercentOutput, 0);
@@ -56,8 +59,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    double speedL = -controller.getRawAxis(1);
-    double speedR = -controller.getRawAxis(5);
+    double rawSpeedL = -controller.getRawAxis(1) * 0.8;
+    double rawSpeedR = -controller.getRawAxis(5) * 0.8;
+
+    speedL += rawSpeedL*0.1;
+    speedL += rawSpeedR*0.1;
+
     frontLeft.set(ControlMode.PercentOutput, speedL);
     backLeft.set(ControlMode.PercentOutput, speedL);
     frontRight.set(ControlMode.PercentOutput, speedR);
