@@ -62,8 +62,8 @@ public class Robot extends TimedRobot {
     double rawSpeedL = -controller.getRawAxis(1) * 0.8;
     double rawSpeedR = -controller.getRawAxis(5) * 0.8;
 
-    speedL += rawSpeedL*0.1;
-    speedL += rawSpeedR*0.1;
+    speedL += (speedL - rawSpeedL)*0.1;
+    speedR += (speedR - rawSpeedR)*0.1;
 
     frontLeft.set(ControlMode.PercentOutput, speedL);
     backLeft.set(ControlMode.PercentOutput, speedL);
