@@ -4,9 +4,11 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -20,13 +22,20 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
 
-  private Spark leftMotor = new Spark(0);
-  private Spark rightMotor = new Spark(1);
-
   private Joystick controller = new Joystick(0);
 
+  private TalonSRX frontLeft = new TalonSRX(1);
+  private TalonSRX backLeft = new TalonSRX(3);
+  private TalonSRX frontRight = new TalonSRX(0);
+  private TalonSRX backRight = new TalonSRX(2);
+
   @Override
-  public void robotInit() {}
+  public void robotInit() {
+    frontLeft.set(ControlMode.PercentOutput, 0);
+    backLeft.set(ControlMode.PercentOutput, 0);
+    frontRight.set(ControlMode.PercentOutput, 0);
+    backRight.set(ControlMode.PercentOutput, 0);
+  }
 
   @Override
   public void robotPeriodic() {}
@@ -39,16 +48,20 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    leftMotor.set(0);
-    rightMotor.set(0);
+    frontLeft.set(ControlMode.PercentOutput, 0);
+    backLeft.set(ControlMode.PercentOutput, 0);
+    frontRight.set(ControlMode.PercentOutput, 0);
+    backRight.set(ControlMode.PercentOutput, 0);
   }
 
   @Override
   public void teleopPeriodic() {
     double speedL = -controller.getRawAxis(1);
     double speedR = -controller.getRawAxis(5);
-    leftMotor.set(speedL*0.6);
-    rightMotor.set(speedR*0.6);
+    frontLeft.set(ControlMode.PercentOutput, speedL);
+    backLeft.set(ControlMode.PercentOutput, speedL);
+    frontRight.set(ControlMode.PercentOutput, speedR);
+    backRight.set(ControlMode.PercentOutput, speedR);
   }
 
   @Override
