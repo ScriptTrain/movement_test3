@@ -63,16 +63,23 @@ public class Robot extends TimedRobot {
     double rawSpeedR = -controller.getRawAxis(5);
 
     if(speedL > rawSpeedL) {
-      speedL -= (speedL - rawSpeedL)/50;
-    } else if(speedL <= rawSpeedL) {
-      speedL += (rawSpeedL - speedL)/50;
+      speedL -= 0.015;
+    } else if(speedL < rawSpeedL) {
+      speedL += 0.015;
     }
 
-    
+    if(speedL < 0.01 && speedL > -0.01) {
+      speedL = 0;
+    }
+
     if(speedR > rawSpeedR) {
-      speedR -= (speedR - rawSpeedR)/50;
-    } else if(speedR <= rawSpeedR) {
-      speedR += (rawSpeedR - speedR)/50;
+      speedR -= 0.015;
+    } else if(speedR < rawSpeedR) {
+      speedR += 0.015;
+    }
+
+    if(speedR < 0.01 && speedR > -0.01) {
+      speedR = 0;
     }
 
     frontLeft.set(ControlMode.PercentOutput, speedL);
