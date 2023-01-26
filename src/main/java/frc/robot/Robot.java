@@ -59,16 +59,26 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    double rawSpeedL = -controller.getRawAxis(1) * 0.8;
-    double rawSpeedR = -controller.getRawAxis(5) * 0.8;
+    double rawSpeedL = -controller.getRawAxis(1);
+    double rawSpeedR = -controller.getRawAxis(5);
 
-    speedL += (speedL - rawSpeedL)*0.1;
-    speedR += (speedR - rawSpeedR)*0.1;
+    if(speedL > rawSpeedL) {
+      speedL -= (speedL - rawSpeedL)/50;
+    } else if(speedL <= rawSpeedL) {
+      speedL += (rawSpeedL - speedL)/50;
+    }
+
+    
+    if(speedR > rawSpeedR) {
+      speedR -= (speedR - rawSpeedR)/50;
+    } else if(speedR <= rawSpeedR) {
+      speedR += (rawSpeedR - speedR)/50;
+    }
 
     frontLeft.set(ControlMode.PercentOutput, speedL);
     backLeft.set(ControlMode.PercentOutput, speedL);
-    frontRight.set(ControlMode.PercentOutput, speedR);
-    backRight.set(ControlMode.PercentOutput, speedR);
+    frontRight.set(ControlMode.PercentOutput, -speedR);
+    backRight.set(ControlMode.PercentOutput, -speedR);
   }
 
   @Override
